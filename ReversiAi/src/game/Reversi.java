@@ -42,10 +42,14 @@ public class Reversi {
 		current = (black == current)? white : black;
 	}
 	
+	private void noValidMoves() {
+		System.out.println();
+		System.out.println("I'm sorry, but " + current.name + " has no valid moves.");
+		System.out.println();
+	}
+	
 	private void finish() {
 		System.out.println();
-		System.out.println("I'm sorry " + current.name + ", you have no valid moves left.");
-		System.out.println("\n");
 		System.out.println("-------------------------");
 		System.out.println("Final Score");
 		System.out.println("-------------------------");
@@ -61,20 +65,36 @@ public class Reversi {
 	}
 	
 	public static void main(String[] args) {
-		Player black = new Human("Evan", 'X');
+		Player black = new Ai("Evan", 'X');
 		Player white = new Ai("Ben", 'O');
 		Reversi game = new Reversi(black, white, white);
+		long moveTime = 0;
 		
 		game.board.drawBoard();
 		while(true) {
 			game.announcePlayer(game.current.name);
+			long beforeMoveTime = System.currentTimeMillis();
 			game.makeDecide(game.current);
+			long afterMoveTime = System.currentTimeMillis();
+			moveTime += (afterMoveTime - beforeMoveTime);
 			game.board.drawBoard();
+			System.out.println();
+			System.out.println("Time taken for move: " + (afterMoveTime - beforeMoveTime) + " ms");
 			
 			game.switchTurns();
 			if(!game.board.areValidMoves(game.current.teamPiece)) {
-				game.finish();
-				break;
+				char opponentPiece = (Board.BLACK_TILE == game.current.teamPiece)? Board.WHITE_TILE : Board.BLACK_TILE; 
+				
+				if (!game.board.areValidMoves(opponentPiece)) {
+					long endTime = System.currentTimeMillis();
+					System.out.println();
+					System.out.println("Time taken for all moves: " + moveTime + " ms");
+					game.finish();
+					break;
+				} else {
+					game.noValidMoves();
+					game.switchTurns();
+				}
 			}
 		}
 	}

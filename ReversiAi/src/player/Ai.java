@@ -30,8 +30,6 @@ public class Ai extends Player{
 		//			int value = minValue(tempBoard, bestChoice, Integer.Max_VALUE, TREE_DEPTH);
 		//			if(value > bestChoice)
 		//				bestDecision = tempDecision;
-		//					
-		
 		
 		
 		return null;

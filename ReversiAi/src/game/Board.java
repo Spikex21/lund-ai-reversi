@@ -6,8 +6,11 @@ public class Board {
 	public static final int X_LENGTH = 8;	//must be even
 	public static final int Y_LENGTH = 8;	//must be even
 	
-	public static char BLACK_TILE = '@';
-	public static char WHITE_TILE = 'O';
+	public static final char DEFAULT_BLACK_TILE = 'X';
+	public static final char DEFAULT_WHITE_TILE = 'O';
+	
+	public static char BLACK_TILE = DEFAULT_BLACK_TILE;
+	public static char WHITE_TILE = DEFAULT_WHITE_TILE;
 	
 	public char[][] board;
 	

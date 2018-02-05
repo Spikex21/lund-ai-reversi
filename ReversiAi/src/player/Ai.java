@@ -18,7 +18,7 @@ public class Ai extends Player{
 	public Decision getDecision(Board board) {
 		opponentPiece = (Board.BLACK_TILE == teamPiece)? Board.WHITE_TILE : Board.BLACK_TILE; 
 		Decision bestDecision = null;
-		int bestChoice = Integer.MIN_VALUE;
+		int bestValue = Integer.MIN_VALUE;
 		
 		for (int x = 1; x <= 8; x++) {
 			for (int y = 1; y <= 8; y++) {
@@ -27,37 +27,23 @@ public class Ai extends Player{
 				if (board.isValidMove(tempDecision)) {
 					Board tempBoard = new Board(board);
 					
-					tempBoard.board[tempDecision.x - 1][tempDecision.y - 1] = teamPiece;
+					tempBoard.playDecision(tempDecision);
 					
-					int value = minValue(tempBoard, bestChoice, Integer.MAX_VALUE, TREE_DEPTH);
+					int value = minValue(tempBoard, bestValue, Integer.MAX_VALUE, TREE_DEPTH);
 					
-					if (value > bestChoice) {
-						bestChoice = value;
+					if (value > bestValue) {
+						bestValue = value;
 						bestDecision = tempDecision;
 					}
 				}
 			}
 		}
 		
-		
-		//TODO 	for (all spots on the board...)
-		//			if(it is not a valid move)
-		//				continue;
-		
-		//			Decision tempDecision = whatever the valid move was;
-		//			Board tempBoard = new Board(board);
-		//			tempBoard.makeDecision(tempDecision);
-		//			int value = minValue(tempBoard, bestChoice, Integer.Max_VALUE, TREE_DEPTH);
-		//			if(value > bestChoice)
-		//				bestDecision = tempDecision;
-		
-		
 		return bestDecision;
 	}
 	
 	private int maxValue(Board board, int alpha, int beta, int depth) {
-		depth--;
-		if (depth == 0 || !board.areValidMoves(teamPiece)) {
+		if (--depth == 0 || !board.areValidMoves(teamPiece)) {
 			return board.scoreBoard(teamPiece);
 		}
 		
@@ -69,7 +55,7 @@ public class Ai extends Player{
 				
 				if (board.isValidMove(tempDecision)) {
 					Board tempBoard = new Board(board);
-					tempBoard.board[tempDecision.x - 1][tempDecision.y - 1] = teamPiece;
+					tempBoard.playDecision(tempDecision);
 
 					int val = minValue(tempBoard, alpha, beta, depth);
 					
@@ -92,8 +78,7 @@ public class Ai extends Player{
 	}
 	
 	private int minValue(Board board, int alpha, int beta, int depth) {
-		depth--;
-		if (depth == 0 || !board.areValidMoves(opponentPiece)) {
+		if (--depth == 0 || !board.areValidMoves(opponentPiece)) {
 			return board.scoreBoard(teamPiece);
 		}
 		
@@ -105,7 +90,7 @@ public class Ai extends Player{
 				
 				if (board.isValidMove(tempDecision)) {
 					Board tempBoard = new Board(board);
-					tempBoard.board[tempDecision.x - 1][tempDecision.y - 1] = opponentPiece;
+					tempBoard.playDecision(tempDecision);
 		
 					int val = maxValue(tempBoard, alpha, beta, depth);
 					

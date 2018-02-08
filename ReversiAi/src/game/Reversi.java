@@ -144,10 +144,6 @@ public class Reversi {
 		System.out.println("Please create the second player");
 		Player white = createPlayer();
 		
-		if(white.teamPiece == black.teamPiece) {
-			
-		}
-		
 		Reversi game = new Reversi(black, white, whosFirst(black, white));
 		
 		game.board.drawBoard();

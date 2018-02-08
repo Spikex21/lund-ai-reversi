@@ -42,6 +42,11 @@ public class Ai extends Player{
 		return bestDecision;
 	}
 	
+	/*
+	 * The following two functions follow Dr.John Levin's pseudocode,
+	 * which can be found here:https://www.youtube.com/watch?v=zp3VMe0Jpf8.
+	 */
+	
 	private int maxValue(Board board, int alpha, int beta, int depth) {
 		if (--depth == 0 || !board.areValidMoves(teamPiece)) {
 			return board.scoreBoard(teamPiece);
